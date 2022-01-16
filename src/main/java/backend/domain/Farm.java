@@ -15,13 +15,13 @@ public class Farm {
     @OneToMany
     private List<FarmData> data;
 
-    // getter, setters, contructors
-    public Farm(List<FarmData> data) {
-        this.data = data;
-    }
-
+    // getter, setters, constructors
     public Farm() {
 
+    }
+
+    public Farm(List<FarmData> data) {
+        this.data = data;
     }
 
     public Long getId() {
@@ -40,9 +40,16 @@ public class Farm {
         this.name = name;
     }
 
+    public List<FarmData> getData() {
+        return data;
+    }
+
+    public void setData(List<FarmData> data) {
+        this.data = data;
+    }
 
     @Override
     public String toString() {
-        return "Farm{" + "id=" + id + ", name='" + name + '\'' + ", email='}";
+        return "Farm{" + "id=" + id + ", name='" + name + "'}";
     }
 }
