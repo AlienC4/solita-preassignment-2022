@@ -1,7 +1,8 @@
 package backend.domain;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Table(name = "farmdata")
@@ -10,8 +11,11 @@ public class FarmData {
     @GeneratedValue
     private Long id;
 
-    private Date date;
+    @Column
+    private LocalDateTime date;
+    @Column
     private String type;
+    @Column
     private double value;
 
     public Long getId() {
@@ -23,7 +27,7 @@ public class FarmData {
     }
 
     public FarmData(String date, String type, double value) {
-        this.date = new Date(date);
+        this.date = LocalDateTime.parse(date, DateTimeFormatter.ISO_DATE_TIME);
         this.type = type;
         this.value = value;
     }
@@ -36,11 +40,11 @@ public class FarmData {
         return type;
     }
 
-    public Date getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
