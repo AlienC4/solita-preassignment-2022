@@ -3,7 +3,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {Button, Container, Form, FormGroup, Input, Label} from 'reactstrap';
 import AppNavbar from './AppNavbar';
 
-class ClientEdit extends Component {
+class FarmEdit extends Component {
     baseUrl = "http://localhost:8080"
     emptyItem = {
         name: '', email: ''
@@ -20,8 +20,8 @@ class ClientEdit extends Component {
 
     async componentDidMount() {
         if (this.props.match.params.id !== 'new') {
-            const client = await (await fetch(`${this.baseUrl}/clients/${this.props.match.params.id}`)).json();
-            this.setState({item: client});
+            const farm = await (await fetch(`${this.baseUrl}/farms/${this.props.match.params.id}`)).json();
+            this.setState({item: farm});
         }
     }
 
@@ -38,17 +38,17 @@ class ClientEdit extends Component {
         event.preventDefault();
         const {item} = this.state;
 
-        await fetch(this.baseUrl + '/clients' + (item.id ? '/' + item.id : ''), {
+        await fetch(this.baseUrl + '/farms' + (item.id ? '/' + item.id : ''), {
             method: (item.id) ? 'PUT' : 'POST', headers: {
                 'Accept': 'application/json', 'Content-Type': 'application/json'
             }, body: JSON.stringify(item),
         });
-        this.props.history.push('/clients');
+        this.props.history.push('/farms');
     }
 
     render() {
         const {item} = this.state;
-        const title = <h2>{item.id ? 'Edit Client' : 'Add Client'}</h2>;
+        const title = <h2>{item.id ? 'Edit Farm' : 'Add Farm'}</h2>;
 
         return <div>
             <AppNavbar/>
@@ -61,13 +61,8 @@ class ClientEdit extends Component {
                                onChange={this.handleChange} autoComplete="name"/>
                     </FormGroup>
                     <FormGroup>
-                        <Label for="email">Email</Label>
-                        <Input type="text" name="email" id="email" value={item.email || ''}
-                               onChange={this.handleChange} autoComplete="email"/>
-                    </FormGroup>
-                    <FormGroup>
                         <Button color="primary" type="submit">Save</Button>{' '}
-                        <Button color="secondary" tag={Link} to="/clients">Cancel</Button>
+                        <Button color="secondary" tag={Link} to="/farms">Cancel</Button>
                     </FormGroup>
                 </Form>
             </Container>
@@ -75,4 +70,4 @@ class ClientEdit extends Component {
     }
 }
 
-export default withRouter(ClientEdit);
+export default withRouter(FarmEdit);

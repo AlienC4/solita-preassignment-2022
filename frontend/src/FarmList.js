@@ -3,26 +3,26 @@ import { Button, ButtonGroup, Container, Table } from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import { Link } from 'react-router-dom';
 
-class ClientList extends Component {
+class FarmList extends Component {
     baseUrl = "http://localhost:8080"
     constructor(props) {
         super(props);
-        this.state = {clients: []};
+        this.state = {farms: []};
         this.remove = this.remove.bind(this);
     }
 
     componentDidMount() {
-        fetch(this.baseUrl + '/clients', {
+        fetch(this.baseUrl + '/farms', {
             headers: {
                 'Access-Control-Allow-Origin': '*',
             }
         })
             .then(response => response.json())
-            .then(data => this.setState({clients: data}));
+            .then(data => this.setState({farms: data}));
     }
 
     async remove(id) {
-        await fetch(`${this.baseUrl}/clients/${id}`, {
+        await fetch(`${this.baseUrl}/farms/${id}`, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -30,21 +30,21 @@ class ClientList extends Component {
                 'Access-Control-Allow-Origin': '*',
             }
         }).then(() => {
-            let updatedClients = [...this.state.clients].filter(i => i.id !== id);
-            this.setState({clients: updatedClients});
+            let updatedClients = [...this.state.farms].filter(i => i.id !== id);
+            this.setState({farms: updatedClients});
         });
     }
 
     render() {
-        const {clients} = this.state;
+        const {farms} = this.state;
 
-        const clientList = clients.map(client => {
+        const clientList = farms.map(client => {
             return <tr key={client.id}>
                 <td style={{whiteSpace: 'nowrap'}}>{client.name}</td>
                 <td>{client.email}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size="sm" color="primary" tag={Link} to={"/clients/" + client.id}>Edit</Button>
+                        <Button size="sm" color="primary" tag={Link} to={"/farms/" + client.id}>Edit</Button>
                         <Button size="sm" color="danger" onClick={() => this.remove(client.id)}>Delete</Button>
                     </ButtonGroup>
                 </td>
@@ -56,14 +56,13 @@ class ClientList extends Component {
                 <AppNavbar/>
                 <Container fluid>
                     <div className="float-right">
-                        <Button color="success" tag={Link} to="/clients/new">Add Client</Button>
+                        <Button color="success" tag={Link} to="/farms/new">Add Client</Button>
                     </div>
                     <h3>Clients</h3>
                     <Table className="mt-4">
                         <thead>
                         <tr>
                             <th width="30%">Name</th>
-                            <th width="30%">Email</th>
                             <th width="40%">Actions</th>
                         </tr>
                         </thead>
@@ -77,4 +76,4 @@ class ClientList extends Component {
     }
 }
 
-export default ClientList;
+export default FarmList;
