@@ -23,27 +23,23 @@ public class FarmsController {
     @GetMapping
     public List<Farm> getFarms() {
         List<Farm> farms = farmRepository.findAll();
-        System.out.println(farms);
         return farms;
     }
 
     @GetMapping("/{id}")
     public Farm getFarm(@PathVariable Long id) {
-        System.out.println(farmRepository.findById(id));
         return farmRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
     @PostMapping
     public ResponseEntity createFarm(@RequestBody Farm farm) throws URISyntaxException {
         Farm savedFarm = farmRepository.save(farm);
-        System.out.println(savedFarm);
         return ResponseEntity.created(new URI("/farms/" + savedFarm.getId())).body(savedFarm);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateFarm(@PathVariable Long id, @RequestBody Farm farm) {
         Farm currentFarm = farmRepository.findById(id).orElseThrow(RuntimeException::new);
-        System.out.println(currentFarm);
         currentFarm.setName(farm.getName());
         currentFarm = farmRepository.save(farm);
         System.out.println(currentFarm);
